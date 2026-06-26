@@ -11,7 +11,6 @@
 
     <!-- Flatpickr -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-    <!-- Tema default (opsional) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css" />
 
     <style>
@@ -102,29 +101,55 @@
             background: #f0f0f0;
             cursor: not-allowed;
         }
-        /* Flatpickr input akan menyesuaikan */
         .flatpickr-input {
             max-width: 180px;
         }
 
-        /* Select2 */
+        /* ===== SEGITIGA UNTUK SEMUA SELECT (BAWAAN) ===== */
+        .table-form select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px !important;
+        }
+
+        /* ===== SELECT2 RATA KIRI + SEGITIGA ===== */
         .select2-container {
             width: 100% !important;
         }
         .select2-container .select2-selection--single {
             height: 42px !important;
-            padding: 6px 12px;
+            padding: 0 !important;
             border: 1px solid #aaa !important;
             border-radius: 6px !important;
             background: #fafafa !important;
+            display: flex !important;
+            align-items: center !important;
+            position: relative !important;
         }
         .select2-container--default .select2-selection--single .select2-selection__rendered {
-            line-height: 28px !important;
+            padding-left: 12px !important;
+            padding-right: 36px !important; /* ruang untuk segitiga */
+            line-height: 1.4 !important;
             font-size: 15px;
             color: #333 !important;
+            text-align: left !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
         }
         .select2-container--default .select2-selection--single .select2-selection__arrow {
             height: 40px !important;
+            right: 6px !important;
+            position: absolute !important;
+            top: 0 !important;
+            width: 24px !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 12px 7px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            display: none !important; /* sembunyikan segitiga bawaan Select2 */
         }
         .select2-dropdown {
             border-color: #aaa !important;
@@ -170,6 +195,12 @@
             background: #c0c8d1 !important;
         }
 
+        /* Pesan sukses */
+        .alert-success {
+            display: none;
+            margin-top: 10px;
+        }
+
         @media (max-width: 600px) {
             .container-form {
                 padding: 12px 10px;
@@ -203,7 +234,12 @@
 <div class="container-form">
     <div class="title-form">TAMBAH REFERENSI DATA PIHAK</div>
 
-    <form id="frm_ref_pihak" method="post" action="http://124.158.186.234/sipp/pihak_list/validateInput">
+    <!-- Pesan sukses -->
+    <div id="alertSuccess" class="alert alert-success" role="alert">
+        <strong>Sukses!</strong> Data berhasil disimpan.
+    </div>
+
+    <form id="frm_ref_pihak" method="post" action="" novalidate>
         <table class="table-form">
             <tbody>
                 <!-- Jenis Pihak -->
@@ -231,8 +267,7 @@
                 <tr class="tr_perorangan">
                     <td>Tanggal Lahir</td>
                     <td>
-                        <!-- Flatpickr akan mengubah input ini -->
-                        <input type="text" name="pihak_tgl_lahir" id="pihak_tgl_lahir" 
+                        <input type="text" name="pihak_tgl_lahir" id="pihak_tgl_lahir"
                                class="flatpickr-input" placeholder="dd/mm/yyyy" />
                     </td>
                 </tr>
@@ -279,19 +314,19 @@
                 <!-- Wilayah -->
                 <tr class="wni">
                     <td>Provinsi</td>
-                    <td><select name="prop" id="prop"><option value="">- Cari/Pilih Propinsi -</option></select></td>
+                    <td><select name="prop" id="prop"><option value="">Pilih Provinsi</option></select></td>
                 </tr>
                 <tr class="wni">
                     <td>Kabupaten/Kota</td>
-                    <td><select name="kab" id="kab"><option value="">- Cari/Pilih Kabupaten/Kota -</option></select></td>
+                    <td><select name="kab" id="kab"><option value="">Pilih Kabupaten/Kota</option></select></td>
                 </tr>
                 <tr class="wni">
                     <td>Kecamatan</td>
-                    <td><select name="kec" id="kec"><option value="">- Cari/Pilih Kecamatan -</option></select></td>
+                    <td><select name="kec" id="kec"><option value="">Pilih Kecamatan</option></select></td>
                 </tr>
                 <tr class="wni">
                     <td>Kelurahan/Desa <span style="color:#d32f2f;">*</span></td>
-                    <td><select name="kel" id="kel"><option value="">- Cari/Pilih Kelurahan/Desa -</option></select></td>
+                    <td><select name="kel" id="kel"><option value="">Pilih Kelurahan/Desa</option></select></td>
                 </tr>
 
                 <!-- Lanjutan Perorangan -->
@@ -324,7 +359,6 @@
                     <td>Warga Negara <span style="color:#d32f2f;">*</span></td>
                     <td>
                         <select name="pihak_warga_negara" id="pihak_warga_negara">
-                            <!-- Daftar negara lengkap (sama) -->
                             <option value="16">Aaland Islands</option>
                             <option value="3">Afghanistan</option>
                             <option value="6">Albania</option>
@@ -668,18 +702,79 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script> <!-- Lokalisasi Indonesia -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 
 <script>
 $(document).ready(function() {
-    // ---- Flatpickr untuk Tanggal Lahir ----
+    // =========================================================
+    // 1. CEK PARAMETER URL UNTUK PESAN SUKSES
+    // =========================================================
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('status') === 'sukses') {
+        $('#alertSuccess').show().delay(5000).fadeOut();
+        if (window.history && window.history.replaceState) {
+            var newUrl = window.location.pathname;
+            window.history.replaceState({}, document.title, newUrl);
+        }
+        $('#frm_ref_pihak')[0].reset();
+        $('.select2').val(null).trigger('change');
+        $('#pihak_tgl_lahir').val('');
+        $('#pihak_umur').val('');
+        localStorage.removeItem('formData');
+    }
+
+    // =========================================================
+    // 2. SIMPAN DATA FORM KE LOCALSTORAGE (OTOMATIS)
+    // =========================================================
+    function saveFormData() {
+        var formData = {};
+        $('#frm_ref_pihak input, #frm_ref_pihak select, #frm_ref_pihak textarea').each(function() {
+            var name = $(this).attr('name');
+            if (name) {
+                formData[name] = $(this).val();
+            }
+        });
+        localStorage.setItem('formData', JSON.stringify(formData));
+    }
+
+    $('#frm_ref_pihak input, #frm_ref_pihak select, #frm_ref_pihak textarea').on('change input', function() {
+        saveFormData();
+    });
+
+    var savedData = localStorage.getItem('formData');
+    if (savedData) {
+        var data = JSON.parse(savedData);
+        $.each(data, function(name, value) {
+            var el = $('[name="' + name + '"]');
+            if (el.length && el.is('input, select, textarea')) {
+                el.val(value);
+            }
+        });
+        $('select').trigger('change');
+        if (data.pihak_tgl_lahir) {
+            var parts = data.pihak_tgl_lahir.split('/');
+            if (parts.length === 3) {
+                var birth = new Date(parts[2], parts[1] - 1, parts[0]);
+                var today = new Date();
+                var age = today.getFullYear() - birth.getFullYear();
+                var m = today.getMonth() - birth.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+                    age--;
+                }
+                $('#pihak_umur').val(age > 0 ? age : '');
+            }
+        }
+    }
+
+    // =========================================================
+    // 3. Flatpickr
+    // =========================================================
     flatpickr("#pihak_tgl_lahir", {
         dateFormat: "d/m/Y",
         maxDate: "today",
-        locale: "id", // bahasa Indonesia
+        locale: "id",
         placeholder: "dd/mm/yyyy",
-        onChange: function(selectedDates, dateStr, instance) {
-            // Hitung umur dari dateStr (format dd/mm/yyyy)
+        onChange: function(selectedDates, dateStr) {
             if (dateStr) {
                 var parts = dateStr.split('/');
                 if (parts.length === 3) {
@@ -695,10 +790,13 @@ $(document).ready(function() {
             } else {
                 $('#pihak_umur').val('');
             }
+            saveFormData();
         }
     });
 
-    // ---- Toggle Perorangan ----
+    // =========================================================
+    // 4. Toggle Perorangan
+    // =========================================================
     var jenisPihak = $('#pihak_jenis_pihak');
     var peroranganFields = $('.tr_perorangan');
     function togglePerorangan() {
@@ -707,11 +805,14 @@ $(document).ready(function() {
         } else {
             peroranganFields.hide();
         }
+        saveFormData();
     }
     jenisPihak.on('change', togglePerorangan);
     togglePerorangan();
 
-    // ---- Toggle Pekerjaan Lain-lain ----
+    // =========================================================
+    // 5. Toggle Pekerjaan Lain-lain
+    // =========================================================
     var pekerjaanSelect = $('#apakahtni');
     var inputPekerjaan = $('#input_pihak_pekerjaan');
     function togglePekerjaan() {
@@ -720,11 +821,14 @@ $(document).ready(function() {
         } else {
             inputPekerjaan.hide();
         }
+        saveFormData();
     }
     pekerjaanSelect.on('change', togglePekerjaan);
     togglePekerjaan();
 
-    // ---- Fungsi Title Case untuk dropdown wilayah ----
+    // =========================================================
+    // 6. Select2 Wilayah (dengan Title Case & Arrow)
+    // =========================================================
     function toTitleCase(str) {
         if (!str) return '';
         return str.toLowerCase().replace(/\b\w/g, function(char) {
@@ -732,7 +836,6 @@ $(document).ready(function() {
         });
     }
 
-    // ---- Select2 Wilayah dengan Format Title Case ----
     var baseApi = 'https://www.emsifa.com/api-wilayah-indonesia/api/';
 
     function formatWilayah(item) {
@@ -742,7 +845,7 @@ $(document).ready(function() {
 
     // Provinsi
     $('#prop').select2({
-        placeholder: "- Cari/Pilih Propinsi -",
+        placeholder: "Pilih Provinsi",
         allowClear: true,
         templateResult: formatWilayah,
         templateSelection: formatWilayah,
@@ -768,11 +871,13 @@ $(document).ready(function() {
             cache: true
         },
         minimumInputLength: 0
+    }).on('change', function() {
+        saveFormData();
     });
 
     // Kabupaten
     $('#kab').select2({
-        placeholder: "- Cari/Pilih Kabupaten/Kota -",
+        placeholder: "Pilih Kabupaten/Kota",
         allowClear: true,
         templateResult: formatWilayah,
         templateSelection: formatWilayah,
@@ -802,11 +907,13 @@ $(document).ready(function() {
             cache: true
         },
         minimumInputLength: 0
+    }).on('change', function() {
+        saveFormData();
     });
 
     // Kecamatan
     $('#kec').select2({
-        placeholder: "- Cari/Pilih Kecamatan -",
+        placeholder: "Pilih Kecamatan",
         allowClear: true,
         templateResult: formatWilayah,
         templateSelection: formatWilayah,
@@ -836,11 +943,13 @@ $(document).ready(function() {
             cache: true
         },
         minimumInputLength: 0
+    }).on('change', function() {
+        saveFormData();
     });
 
     // Kelurahan
     $('#kel').select2({
-        placeholder: "- Cari/Pilih Kelurahan/Desa -",
+        placeholder: "Pilih Kelurahan/Desa",
         allowClear: true,
         templateResult: formatWilayah,
         templateSelection: formatWilayah,
@@ -870,6 +979,8 @@ $(document).ready(function() {
             cache: true
         },
         minimumInputLength: 0
+    }).on('change', function() {
+        saveFormData();
     });
 
     // Reset dropdown turunan
@@ -877,32 +988,58 @@ $(document).ready(function() {
         $('#kab').val(null).trigger('change');
         $('#kec').val(null).trigger('change');
         $('#kel').val(null).trigger('change');
+        saveFormData();
     });
     $('#kab').on('change', function() {
         $('#kec').val(null).trigger('change');
         $('#kel').val(null).trigger('change');
+        saveFormData();
     });
     $('#kec').on('change', function() {
         $('#kel').val(null).trigger('change');
+        saveFormData();
     });
 
-    // ---- Tombol Kembali ----
-    $('#back_pihak').on('click', function() {
-        if (confirm('Anda yakin ingin kembali? Data yang belum disimpan akan hilang.')) {
-            alert('Fungsi kembali (simulasi)');
-        }
-    });
-
-    // ---- Submit Form ----
+    // =========================================================
+    // 7. Submit Form (AJAX + PRG)
+    // =========================================================
     $('#frm_ref_pihak').on('submit', function(e) {
+        e.preventDefault();
+
         var nama = $('#pihak_fullname').val().trim();
         if (nama === '') {
             alert('Nama wajib diisi!');
-            e.preventDefault();
             return false;
         }
-        console.log('Form dikirim ke:', $(this).attr('action'));
-        return true;
+
+        $('#simpan_btn').prop('disabled', true).val('Menyimpan...');
+
+        var formData = $(this).serialize();
+
+        $.ajax({
+            url: 'http://124.158.186.234/sipp/pihak_list/validateInput',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                window.location.href = window.location.pathname + '?status=sukses';
+            },
+            error: function(xhr, status, error) {
+                alert('Terjadi kesalahan: ' + error + '\nSilakan coba lagi.');
+                $('#simpan_btn').prop('disabled', false).val('Simpan');
+            }
+        });
+    });
+
+    // =========================================================
+    // 8. Tombol Kembali
+    // =========================================================
+    $('#back_pihak').on('click', function() {
+        if (confirm('Anda yakin ingin kembali? Data yang belum disimpan akan hilang.')) {
+            localStorage.removeItem('formData');
+            alert('Fungsi kembali (simulasi)');
+            // window.history.back();
+        }
     });
 
     console.log('Form siap digunakan.');
