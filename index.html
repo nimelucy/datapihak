@@ -129,7 +129,7 @@
         }
         .select2-container--default .select2-selection--single .select2-selection__rendered {
             padding-left: 12px !important;
-            padding-right: 36px !important; /* ruang untuk segitiga */
+            padding-right: 36px !important;
             line-height: 1.4 !important;
             font-size: 15px;
             color: #333 !important;
@@ -149,7 +149,7 @@
             background-size: 12px 7px;
         }
         .select2-container--default .select2-selection--single .select2-selection__arrow b {
-            display: none !important; /* sembunyikan segitiga bawaan Select2 */
+            display: none !important;
         }
         .select2-dropdown {
             border-color: #aaa !important;
@@ -253,6 +253,19 @@
                         <input type="hidden" name="act" value="add" />
                     </td>
                 </tr>
+
+                <!-- ===== TAMBAHAN: YANG MENGHADIRKAN ===== -->
+                <tr>
+                    <td>Yang Menghadirkan <span style="color:#d32f2f;">*</span></td>
+                    <td>
+                        <select name="saksi_pihak_ke" id="saksi_pihak_ke">
+                            <option value="1">Penggugat</option>
+                            <option value="2">Tergugat</option>
+                            <option value="3">Intervensi</option>
+                        </select>
+                    </td>
+                </tr>
+
                 <!-- Nama -->
                 <tr>
                     <td>Nama <span style="color:#d32f2f;">*</span></td>
